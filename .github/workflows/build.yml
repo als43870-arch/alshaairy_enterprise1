@@ -24,8 +24,16 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Install Dependencies and Build APK
+      - name: Auto-locate Project and Build
         run: |
+          PROJECT_PATH=$(find . -name "pubspec.yaml" -maxdepth 3 -exec dirname {} \;)
+          if [ -z "$PROJECT_PATH" ]; then
+            echo "Error: pubspec.yaml not found anywhere!"
+            exit 1
+          fi
+          echo "Found project at: $PROJECT_PATH"
+          cd "$PROJECT_PATH"
+          
           flutter pub get
           flutter build apk --release
 
@@ -33,4 +41,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: '**/build/app/outputs/flutter-apk/app-release.apk'
