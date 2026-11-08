@@ -1,45 +1,21 @@
-name: Build Android APK
+name: alshaairy_enterprise1
+description: "A new Flutter project for Al-Shaairy Trading Establishment."
+publish_to: 'none'
 
-on:
-  push:
-    branches: [ main, master ]
+version: 1.0.0+1
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+environment:
+  sdk: '>=3.0.0 <4.0.0'
 
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: '17'
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.19.x'
-          channel: 'stable'
-          cache: true
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
 
-      - name: Auto-locate Project and Build
-        run: |
-          PROJECT_PATH=$(find . -name "pubspec.yaml" -maxdepth 3 -exec dirname {} \;)
-          if [ -z "$PROJECT_PATH" ]; then
-            echo "Error: pubspec.yaml not found anywhere!"
-            exit 1
-          fi
-          echo "Found project at: $PROJECT_PATH"
-          cd "$PROJECT_PATH"
-          
-          flutter create . --platforms=android --org com.alshaairy.enterprise1
-          flutter pub get
-          flutter build apk --release
-
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: '**/build/app/outputs/flutter-apk/app-release.apk'
+flutter:
+  uses-material-design: true
