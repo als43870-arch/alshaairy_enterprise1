@@ -34,6 +34,7 @@ jobs:
           echo "Found project at: $PROJECT_PATH"
           cd "$PROJECT_PATH"
           
+          flutter create . --platforms=android --org com.alshaairy.enterprise1
           flutter pub get
           flutter build apk --release
 
