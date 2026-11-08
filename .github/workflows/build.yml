@@ -24,11 +24,8 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Build APK
+      - name: Install Dependencies and Build APK
         run: |
-          # الدخول المباشر إلى مجلد المشروع
-          cd alshaairy_enterprise1
-          
           flutter pub get
           flutter build apk --release
 
@@ -36,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: 'alshaairy_enterprise1/build/app/outputs/flutter-apk/app-release.apk'
+          path: build/app/outputs/flutter-apk/app-release.apk
