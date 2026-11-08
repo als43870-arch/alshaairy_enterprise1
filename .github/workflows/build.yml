@@ -24,13 +24,16 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Install Dependencies and Build
+      - name: Find Project and Build APK
         run: |
-          if [ -d "alshaairy_enterprise1" ]; then
-            cd alshaairy_enterprise1
-          elif [ -d "alshaairy_enterprise" ]; then
-            cd alshaairy_enterprise
+          # البحث تلقائياً عن المجلد الذي يحتوي على ملف pubspec.yaml والانتقال إليه
+          PROJECT_DIR=$(find . -name "pubspec.yaml" -maxdepth 2 -exec dirname {} \;)
+          if [ -z "$PROJECT_DIR" ]; then
+            echo "Error: pubspec.yaml not found!"
+            exit 1
           fi
+          echo "Found project at: $PROJECT_DIR"
+          cd "$PROJECT_DIR"
           
           flutter pub get
           flutter build apk --release
