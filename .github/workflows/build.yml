@@ -24,16 +24,10 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Find Project and Build APK
+      - name: Build APK
         run: |
-          # البحث تلقائياً عن المجلد الذي يحتوي على ملف pubspec.yaml والانتقال إليه
-          PROJECT_DIR=$(find . -name "pubspec.yaml" -maxdepth 2 -exec dirname {} \;)
-          if [ -z "$PROJECT_DIR" ]; then
-            echo "Error: pubspec.yaml not found!"
-            exit 1
-          fi
-          echo "Found project at: $PROJECT_DIR"
-          cd "$PROJECT_DIR"
+          # الدخول المباشر إلى مجلد المشروع
+          cd alshaairy_enterprise1
           
           flutter pub get
           flutter build apk --release
@@ -42,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: '**/build/app/outputs/flutter-apk/app-release.apk'
+          path: 'alshaairy_enterprise1/build/app/outputs/flutter-apk/app-release.apk'
